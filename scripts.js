@@ -1,9 +1,20 @@
-
+var session = "";
 $(document).ready(function () {
+
     $("#signUpButton").on("click", function () {
         $("#loginModal").modal("toggle");
         $("#signUpModal").modal("toggle");
     });
+
+    $("#loginForm").on("submit", function(event) {
+        event.preventDefault();
+        login();
+    })
+
+    $("#signUpForm").on("submit", function(event) {
+        event.preventDefault();
+        signUp();
+    })
 });
 
 function signUp() {
@@ -16,9 +27,9 @@ function signUp() {
 
     a = $.ajax({
         url: `http://172.17.12.211/cse383_final/final.php/signUp?name=${myName}&username=${username}&password=${pw}`
-    }).done(function(data) {
+    }).done(function (data) {
         $("#signUpErrorMessage").text("");
-        if(data.status == 0) {
+        if (data.status == 0) {
             $("#signUpModal").modal("toggle");
             $("#loginModal").modal("toggle");
             $("#loginGoodMessage").text("");
@@ -27,7 +38,7 @@ function signUp() {
             $("#signUpErrorMessage").text("");
             $("#signUpErrorMessage").text(data.message);
         }
-    }).fail(function(error) {
+    }).fail(function (error) {
         console.log("error", error.statusText);
     });
 }
@@ -38,17 +49,17 @@ function login() {
 
     a = $.ajax({
         url: `http://172.17.12.211/cse383_final/final.php/login?username=${username}&password=${pw}`
-    }).done(function(data) {
+    }).done(function (data) {
         $("#loginErrorMessage").text("");
-        if(data.status == 0) {
+        if (data.status == 0) {
             $("#loginModal").modal("toggle");
-            $("#loginButton").toggle
-            
+            $("#nameText").text(username);
+            session = data.session;
         } else {
             $("#loginErrorMessage").text("");
             $("#loginErrorMessage").text(data.message);
         }
-    }).fail(function(error) {
+    }).fail(function (error) {
         console.log("error", error.statusText);
     })
 }
