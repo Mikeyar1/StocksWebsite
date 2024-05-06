@@ -8,8 +8,8 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link href="styles.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="stockScripts.js"></script>
     <script src="scripts.js"></script>
+    <script src="stockhistoryscripts.js"></script>
 </head>
 
 <body>
@@ -64,7 +64,8 @@
                         </div>
                         <div class="form-group">
                             <label for="passwordLogin">Password</label>
-                            <input type="password" class="form-control" id="passwordLogin" placeholder="Password" required>
+                            <input type="password" class="form-control" id="passwordLogin" placeholder="Password"
+                                required>
                         </div>
                         <h5 id="loginErrorMessage"></h5>
                         <button type="submit" class="btn btn-primary">Log In</button>
@@ -122,33 +123,38 @@
     </div>
 
     <div class="container">
-        <div class="row mt-2">
-            <div class="col">
-                <div class="form-group">
-                    <label for="exchangeSelect">Stock Exchange</label>
-                    <select id="exchangeSelect">
-                        <option disabled selected value> -- select an exchange -- </option>
-                    </select>
-                </div>
-            </div>
+        <div class="row">
+            <h2>View Stock Favorites History</h2>
         </div>
-
-        <div class="row mt-2">
-            <div class="col">
-                <div class="form-group">
-                    <label for="stockSelect">Stock</label>
-                    <select id="stockSelect">
-                        <option disabled selected value> -- select an exchange -- </option>
-                        <option value="TTS">TTS</option>
-                    </select>
-                    <button type="button" class="btn btn-primary" id="favoriteButton">Add stock to favorites</button>
-                    <p id="favoritesMessage"></p>
-                </div>
-            </div>
-            <div class="col">
+        <div class="row">
+            <form id="historyForm">
+                <label for="dateStart">From:</label>
+                <input type="date" id="dateStart" required>
+                <label for="dateEnd">To:</label>
+                <input type="date" id="dateEnd" required>
+                <button type="submit" class="btn btn-primary" id="viewHistoryButton">View History!</button>
+            </form>
+        </div>
+        <label for="sortSelect">Sort:</label>
+        <select id="sortSelect">
+            <option value="asc">Ascending</option>
+            <option value="dec">Descending</option>
+        </select>
+        <table class="table">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Stock</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="historyTable">
                 
-            </div>
-        </div>
+            </tbody>
+          </table>
+
+
+
     </div>
 
 

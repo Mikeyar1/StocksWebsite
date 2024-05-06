@@ -110,7 +110,7 @@ class final_rest
 			$USER=GET_SQL("select * from user where username=? and session=? ",$username,$session);
 			// GET_SQL returns a list of returned records
 			// Each array element is an array of selected fields with column names as key
-			if (count($USER) == 1) { // Check if record returned
+			if (count($USER) == 1) {
 				EXEC_SQL("update user set session=null, expiration= null where username=?",
 		        	$username);
 		    		$retData["status"]=0;
@@ -119,6 +119,49 @@ class final_rest
 		        	$retData["status"]=1;
 		        	$retData["message"]= "User Not Found";
 		      	}
+		} catch (Exception $e) {
+			$retData["Status"]=1;
+			$retData["message"]=$e->getMessage();
+		}
+		return json_encode($retData);
+	}
+
+	public static function addFavorite($username, $stock) {
+		try {
+			$EXIST=GET_SQL("select * from userFavs where username=? AND stock=?",$username, $stock);
+			if (count($EXIST) > 0) {
+				$retData["status"]=1;
+				$retData["message"]= "Stock $stock already a favorite";
+			} else {
+				EXEC_SQL("insert into userFavs (username,stock) values (?,?)",$username,$stock);
+				$retData["status"]=0;
+				$retData["message"]= "Stock $stock favorited";
+			}
+		} catch (Exception $e) {
+			$retData["Status"]=1;
+			$retData["message"]=$e->getMessage();
+		}
+		return json_encode($retData);
+	}
+
+	public static function logAction($username, $stock, $action) {
+		try {
+			EXEC_SQL("insert into favoritesHistory (username, stock, action) values (?,?,?)", $username, $stock, $action);
+			$retData["status"]=0;
+			$retData["message"]= "Added action $username $action $stock to history";
+		} catch (Exception $e) {
+			$retData["Status"]=1;
+			$retData["message"]=$e->getMessage();
+		}
+		return json_encode($retData);
+	}
+
+	public static function getHistory($username, $date1, $date2) {
+		try {
+			$data = GET_SQL("select * from favoritesHistory where username=? and date between ? and ?", $username, $date1, $date2);
+			$retData["status"]=0;
+			$retData["message"]="Returned entries for $username between $date1 and $date2";
+			$retData["data"]=$data;
 		} catch (Exception $e) {
 			$retData["Status"]=1;
 			$retData["message"]=$e->getMessage();

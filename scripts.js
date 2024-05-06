@@ -1,6 +1,6 @@
-var session = "";
-$(document).ready(function () {
 
+var username = "";
+$(document).ready(function () {
     $("#signUpButton").on("click", function () {
         $("#loginModal").modal("toggle");
         $("#signUpModal").modal("toggle");
@@ -15,6 +15,14 @@ $(document).ready(function () {
         event.preventDefault();
         signUp();
     })
+
+    $("#favoriteButton").on("click", function() {
+        addToFavorite();
+    })
+
+    $("#stockSelect").on("change", function() {
+        $("#favoritesMessage").text("");
+    })
 });
 
 function signUp() {
@@ -26,7 +34,8 @@ function signUp() {
     myName = myName.replace(/ /g, '+');
 
     a = $.ajax({
-        url: `http://172.17.12.211/cse383_final/final.php/signUp?name=${myName}&username=${username}&password=${pw}`
+        url: `http://172.17.12.211/cse383_final/final.php/signUp?name=${myName}&username=${username}&password=${pw}`,
+        method: "GET"
     }).done(function (data) {
         $("#signUpErrorMessage").text("");
         if (data.status == 0) {
@@ -44,22 +53,54 @@ function signUp() {
 }
 
 function login() {
-    username = $("#usernameLogin").val();
+    myUsername = $("#usernameLogin").val();
     pw = $("#passwordLogin").val();
 
     a = $.ajax({
-        url: `http://172.17.12.211/cse383_final/final.php/login?username=${username}&password=${pw}`
+        url: `http://172.17.12.211/cse383_final/final.php/login?username=${myUsername}&password=${pw}`,
+        method: "GET"
     }).done(function (data) {
         $("#loginErrorMessage").text("");
         if (data.status == 0) {
             $("#loginModal").modal("toggle");
-            $("#nameText").text(username);
-            session = data.session;
+            $("#nameText").text(myUsername);
+            username = myUsername;
         } else {
             $("#loginErrorMessage").text("");
             $("#loginErrorMessage").text(data.message);
         }
     }).fail(function (error) {
+        console.log("error", error.statusText);
+    })
+}
+
+function addToFavorite() {
+    stock = $("#stockSelect").val();
+    
+    a = $.ajax({
+        url: `http://172.17.12.211/cse383_final/final.php/addFavorite?username=${username}&stock=${stock}`, 
+        method: "GET"
+    }).done(function(data) {
+        if(data.status == 0) {
+            $("#favoritesMessage").css("color", "green");
+            $("#favoritesMessage").text(`Added ${stock} to favorites!`);
+            logFavoritesAction(stock, "added");
+        } else {
+            $("#favoritesMessage").css("color", "red");
+            $("#favoritesMessage").text(`${stock} is already a favorite!`);
+        }
+    }).fail(function(error) {
+        console.log("error", error.statusText);
+    }) 
+}
+
+function logFavoritesAction() {
+    a = $.ajax({
+        url: ``, 
+        method: "GET"
+    }).done(function(data) {
+
+    }).fail(function(error) {
         console.log("error", error.statusText);
     })
 }

@@ -43,7 +43,7 @@ function getStocks(operatingMic) {
         getNextStockPage(data.next_url);
       } else {
         for (let i = 0; i < stockArr.length; i++) {
-          $("#stockSelect").append(`<option>${stockArr[i].ticker}</option>`);
+          $("#stockSelect").append(`<option value=${stockArr[i].ticker}>${stockArr[i].ticker}</option>`);
         }
       }
     })
@@ -79,6 +79,6 @@ function getOperatingMic(index) {
 
 function populateStocks() {
   for (let i = 0; i < stockArr.length; i++) {
-    $("#stockSelect").append(`<option>${stockArr[i].ticker}</option>`);
+    $("#stockSelect").append(`<option value=${stockArr[i].ticker}>${stockArr[i].ticker}</option>`);
   }
 }
