@@ -1,0 +1,8 @@
+
+#signUpErrorMessage, #loginErrorMessage {
+    color: red;
+}
+
+#loginGoodMessage {
+    color: green;
+}
