@@ -75,16 +75,28 @@ function login() {
 }
 
 function addToFavorite() {
-    stock = $("#stockSelect").val();
+    if(!(username.length > 0)) {
+        $("#favoritesMessage").css("color", "red");
+        $("#favoritesMessage").text("Must be logged in to add a favorite!");
+        return;
+    }
+
+    ticker = $("#stockSelect").val();
+    stock = ""
+    for(let i = 0; i < stockArr.length; i++) {
+        if(stockArr[i].ticker == ticker) {
+            stock = stockArr[i].name;
+        }
+    }
     
     a = $.ajax({
-        url: `http://172.17.12.211/cse383_final/final.php/addFavorite?username=${username}&stock=${stock}`, 
+        url: `http://172.17.12.211/cse383_final/final.php/addFavorite?username=${username}&stock=${stock}&ticker=${ticker}`, 
         method: "GET"
     }).done(function(data) {
         if(data.status == 0) {
             $("#favoritesMessage").css("color", "green");
             $("#favoritesMessage").text(`Added ${stock} to favorites!`);
-            logFavoritesAction(stock, "added");
+            logFavoritesAction(stock, ticker, "added");
         } else {
             $("#favoritesMessage").css("color", "red");
             $("#favoritesMessage").text(`${stock} is already a favorite!`);
@@ -94,12 +106,12 @@ function addToFavorite() {
     }) 
 }
 
-function logFavoritesAction() {
+function logFavoritesAction(stock, ticker, action) {
     a = $.ajax({
-        url: ``, 
+        url: `http://172.17.12.211/cse383_final/final.php/logAction?username=${username}&stock=${stock}&ticker=${ticker}&action=${action}`, 
         method: "GET"
     }).done(function(data) {
-
+        console.log(`recorded ${username} ${action} ${stock}`);
     }).fail(function(error) {
         console.log("error", error.statusText);
     })

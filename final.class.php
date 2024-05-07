@@ -126,14 +126,14 @@ class final_rest
 		return json_encode($retData);
 	}
 
-	public static function addFavorite($username, $stock) {
+	public static function addFavorite($username, $stock, $ticker) {
 		try {
 			$EXIST=GET_SQL("select * from userFavs where username=? AND stock=?",$username, $stock);
 			if (count($EXIST) > 0) {
 				$retData["status"]=1;
 				$retData["message"]= "Stock $stock already a favorite";
 			} else {
-				EXEC_SQL("insert into userFavs (username,stock) values (?,?)",$username,$stock);
+				EXEC_SQL("insert into userFavs (username,stock, ticker) values (?,?, ?)",$username,$stock, $ticker);
 				$retData["status"]=0;
 				$retData["message"]= "Stock $stock favorited";
 			}
@@ -144,9 +144,9 @@ class final_rest
 		return json_encode($retData);
 	}
 
-	public static function logAction($username, $stock, $action) {
+	public static function logAction($username, $stock, $ticker, $action) {
 		try {
-			EXEC_SQL("insert into favoritesHistory (username, stock, action) values (?,?,?)", $username, $stock, $action);
+			EXEC_SQL("insert into favoritesHistory (username, stock, ticker, action) values (?, ?, ?,?)", $username, $stock, $ticker, $action);
 			$retData["status"]=0;
 			$retData["message"]= "Added action $username $action $stock to history";
 		} catch (Exception $e) {
@@ -156,11 +156,30 @@ class final_rest
 		return json_encode($retData);
 	}
 
-	public static function getHistory($username, $date1, $date2) {
+	public static function getHistory($username, $date1, $date2, $sort) {
 		try {
-			$data = GET_SQL("select * from favoritesHistory where username=? and date between ? and ?", $username, $date1, $date2);
+			
+			if($sort == "asc") {
+				$data = GET_SQL("select * from favoritesHistory where username=? and date between ? and ? order by date asc", $username, $date1, $date2);
+			} else {
+				$data = GET_SQL("select * from favoritesHistory where username=? and date between ? and ? order by date desc", $username, $date1, $date2);
+
+			}
 			$retData["status"]=0;
 			$retData["message"]="Returned entries for $username between $date1 and $date2";
+			$retData["data"]=$data;
+		} catch (Exception $e) {
+			$retData["Status"]=1;
+			$retData["message"]=$e->getMessage();
+		}
+		return json_encode($retData);
+	}
+
+	public static function getFavorites($username) {
+		try {
+			$data = GET_SQL("select * from userFavs where username=?", $username);
+			$retData["status"]=0;
+			$retData["message"]="Favorites for user $username";
 			$retData["data"]=$data;
 		} catch (Exception $e) {
 			$retData["Status"]=1;

@@ -29,7 +29,7 @@
                     <a class="nav-link" href="stocks.html">Stocks</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="stockhistory.html">Stock History</a>
+                    <a class="nav-link" href="stockhistory.html">Favorites Stocks History</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">About Mikey</a>
@@ -55,6 +55,7 @@
                 </div>
 
                 <div class="modal-body">
+                    <h5>You must be logged in to view this page.</h5>
                     <form id="loginForm">
                         <h5 id="loginGoodMessage"></h5>
                         <div class="form-group">
@@ -75,7 +76,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" id="signUpButton">Sign Up</button>
                     <!--Remove this in final version-->
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close(debug only)</button>
                 </div>
             </div>
         </div>
@@ -124,7 +125,26 @@
 
     <div class="container">
         <div class="row">
-            <h2>View Stock Favorites History</h2>
+            <h5>Favorite Stocks</h5>
+        </div>
+        
+        <div>
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th>Date Added</th>
+                    <th>Stock</th>
+                    <th>Ticker</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody id="favoritesTable">
+                </tbody>
+              </table>
+        </div>
+
+        <div class="row">
+            <h5>View Stock Favorites History</h5>
         </div>
         <!-- History Form -->
         <div class="row">
@@ -139,18 +159,18 @@
         <label for="sortSelect">Sort:</label>
         <select id="sortSelect">
             <option value="asc">Ascending</option>
-            <option value="dec">Descending</option>
+            <option value="desc">Descending</option>
         </select>
         <table class="table">
             <thead>
               <tr>
                 <th>Date</th>
                 <th>Stock</th>
+                <th>Ticker</th>
                 <th>Action</th>
               </tr>
             </thead>
             <tbody id="historyTable">
-                
             </tbody>
           </table>
 

@@ -3,6 +3,7 @@ var stockArr = [];
 
 $(document).ready(function () {
   getExchanges();
+  getStocks("XNYS");
   $("#loginModal").modal("toggle");
 
   $("#exchangeSelect").on("change", function () {
