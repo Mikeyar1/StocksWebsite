@@ -28,7 +28,7 @@ $(document).ready(function () {
 function signUp() {
     myName = $("#nameSignUp").val();
     username = $("#usernameSignUp").val();
-    pw = $("passwordSignUp").val();
+    pw = $("#passwordSignUp").val();
 
     myName = myName.trim();
     myName = myName.replace(/ /g, '+');

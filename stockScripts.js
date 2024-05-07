@@ -2,7 +2,7 @@ var exchanges;
 var stockArr = [];
 
 $(document).ready(function () {
-  //getExchanges();
+  getExchanges();
   $("#loginModal").modal("toggle");
 
   $("#exchangeSelect").on("change", function () {
