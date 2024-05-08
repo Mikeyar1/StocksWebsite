@@ -21,7 +21,7 @@ function getHistory() {
     date2 = $("#dateEnd").val();
     sort = $("#sortSelect").val();
     a = $.ajax({
-        url: `http://172.17.12.211/cse383_final/final.php/getHistory?username=oscar&date1=${date1}&date2=${date2}&sort=${sort}`,
+        url: `http://172.17.12.211/cse383_final/final.php/getHistory?username=${username}&date1=${date1}&date2=${date2}&sort=${sort}`,
         method: "GET"
     }).done(function(data) {
         if(data.data.length > 0) {
