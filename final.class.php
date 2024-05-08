@@ -187,4 +187,23 @@ class final_rest
 		}
 		return json_encode($retData);
 	}
+
+	public static function removeFavorite($username, $ticker) {
+		try {
+			$EXIST=GET_SQL("select * from userFavs where username=? and ticker=?", $username, $ticker);
+			if(count($EXIST)> 0) {
+				EXEC_SQL("delete from userFavs where username=? and ticker=?", $username, $ticker);
+				$retData["status"]=0;
+				$retData["message"]="Removed $ticker from $username favorites";
+				$retData["data"]=$EXIST;
+			} else {
+				$retData["status"]=1;
+				$retData["message"]="User or stock not found";
+			}
+		} catch (Exception $e) {
+			$retData["Status"]=1;
+			$retData["message"]=$e->getMessage();
+		}
+		return json_encode($retData);
+	}
 }

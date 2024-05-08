@@ -14,6 +14,21 @@ $(document).ready(function() {
     $("#loginModal").on("hide.bs.modal", function() {
         getFavorites();
     })
+
+    $('#favoritesTable').on('click', 'button', function() {
+        var ticker = $(this).closest('tr').find('td:eq(2)').text();
+        
+        a = $.ajax({
+            url: `http://172.17.12.211/cse383_final/final.php/removeFavorite?username=${username}&ticker=${ticker}`,
+            method: "GET"
+        }).done(function(data) {
+            getFavorites();
+            console.log(data.data.stock);
+            logFavoritesAction(data.data[0].stock, ticker, "removed");
+        }).fail(function(error) {
+            console.log("error", error.statusText);
+        });
+      });
 });
 
 function getHistory() {
@@ -21,7 +36,7 @@ function getHistory() {
     date2 = $("#dateEnd").val();
     sort = $("#sortSelect").val();
     a = $.ajax({
-        url: `http://172.17.12.211/cse383_final/final.php/getHistory?{username}=&date1=${date1}&date2=${date2}&sort=${sort}`,
+        url: `http://172.17.12.211/cse383_final/final.php/getHistory?username=${username}&date1=${date1}&date2=${date2}&sort=${sort}`,
         method: "GET"
     }).done(function(data) {
         if(data.data.length > 0) {
@@ -58,6 +73,7 @@ function getFavorites() {
                 <td>${data.data[i].date}</td>
                 <td>${data.data[i].stock}</td>
                 <td>${data.data[i].ticker}</td>
+                <td><button type="button" class="btn btn-danger">Remove</button></td>
                 </tr>`)
             }
         } else {
