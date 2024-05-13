@@ -29,7 +29,7 @@
                     <a class="nav-link" href="stocks.html">Stocks</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="stockhistory.html">Favorites Stocks History</a>
+                    <a class="nav-link" href="stockhistory.html">Favorites Stocks</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">About Mikey</a>
@@ -124,23 +124,42 @@
     </div>
 
     <div class="container">
+        <!--Favorite Stock Summary-->
         <div class="row">
             <h5>Favorite Stocks</h5>
-        </div>
-        
-        <div>
+
             <table class="table">
                 <thead>
-                  <tr>
-                    <th>Date Added</th>
-                    <th>Stock</th>
                     <th>Ticker</th>
-                    <th></th>
-                  </tr>
+                    <th>Stock</th>
+                    <th>Open</th>
+                    <th>High</th>
+                    <th>Low</th>
+                    <th>Close</th>
+                    <th>Percent Change</th>
+                    <th>Volume</th>
                 </thead>
-                <tbody id="favoritesTable">
+
+                <tbody id="favoritesTable"></tbody>
+            </table>
+        </div>
+
+        <!--Manage Favorites Stocks-->
+        <div class="row">
+            <h5>Manage Favorite Stocks</h5>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Date Added</th>
+                        <th>Stock</th>
+                        <th>Ticker</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="manageTable">
                 </tbody>
-              </table>
+            </table>
         </div>
 
         <div class="row">
@@ -153,7 +172,7 @@
                 <input type="date" id="dateStart" required>
                 <label for="dateEnd">To:</label>
                 <input type="date" id="dateEnd" required>
-                <button type="submit" class="btn btn-primary" id="viewHistoryButton">View History!</button>
+                <button type="submit" class="btn btn-primary" id="viewHistoryButton">Go!</button>
             </form>
         </div>
         <label for="sortSelect">Sort:</label>
@@ -163,19 +182,36 @@
         </select>
         <table class="table">
             <thead>
-              <tr>
-                <th>Date</th>
-                <th>Stock</th>
-                <th>Ticker</th>
-                <th>Action</th>
-              </tr>
+                <tr>
+                    <th>Date</th>
+                    <th>Stock</th>
+                    <th>Ticker</th>
+                    <th>Action</th>
+                </tr>
             </thead>
             <tbody id="historyTable">
             </tbody>
-          </table>
+        </table>
 
-
-
+        <div class="row">
+            <h5>Get Favorites List on End of Day</h5>
+            <form id="endOfDayForm">
+                <label for="dateStart">On:</label>
+                <input type="date" id="endOfDay" required>
+                <button type="submit" class="btn btn-primary" id="viewEndOfDay">Go!</button>
+            </form>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Date Added</th>
+                        <th>Stock</th>
+                        <th>Ticker</th>
+                    </tr>
+                </thead>
+                <tbody id="endOfDayTable">
+                </tbody>
+            </table>
+        </div>
     </div>
 
 

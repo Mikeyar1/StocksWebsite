@@ -109,3 +109,11 @@ tr:nth-child(even) {
 tr:hover {
     background-color: #cce5ff; 
 }
+
+.positive {
+    color: green;
+}
+
+.negative {
+    color: red;
+}
