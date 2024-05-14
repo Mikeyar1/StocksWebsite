@@ -5,17 +5,90 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Stocks</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="scripts.js"></script>
-    <link rel="stylesheet" href="styles.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="styles.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .landingPage {
+            position: relative;
+            background: url('your-image.jpg') no-repeat center center;
+            background-size: cover;
+            color: white;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .landingPage h1 {
+            font-size: 4rem;
+            font-weight: bold;
+        }
+
+        .landingPage p {
+            font-size: 1.5rem;
+            margin: 20px 0;
+        }
+
+        .landingPage-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .landingPage-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+
+        .section {
+            padding: 60px 0;
+        }
+
+        .section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .section p {
+            font-size: 1.2rem;
+        }
+
+        .footer {
+            background-color: #f1f1f1;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .footer a {
+            color: #333;
+            text-decoration: none;
+            margin: 0 10px;
+            font-weight: bold;
+        }
+
+        .footer a:hover {
+            color: #007bff;
+        }
+    </style>
 </head>
 
 <body>
-    <!-- Nav -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light mx-3">
-        <a class="navbar-brand" href="#">Stocks</a>
+        <a class="navbar-brand"></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -29,10 +102,10 @@
                     <a class="nav-link" href="stocks.html">Stocks</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="favorites.html">Favorites Stocks</a>
+                    <a class="nav-link" href="stockhistory.html">Favorites Stocks</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">About Mikey</a>
+                    <a class="nav-link" href="aboutMikey.html">About Mikey</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="oscar.html">About Oscar</a>
@@ -40,6 +113,35 @@
             </ul>
         </div>
     </nav>
+
+    <div class="landingPage">
+        <div class="landingPage-overlay"></div>
+        <div class="landingPage-content">
+            <h1>Welcome to the Stocks App</h1>
+            <p>Track your favorite stocks and get the latest updates with ease.</p>
+        </div>
+    </div>
+
+    <div class="container section">
+        <h2>About Our Stocks App</h2>
+        <p>
+            Our stocks app allows you to track your favorite stocks and get real-time updates on their performance. 
+            You can log in to access your personalized dashboard, add stocks to your favorites, and view detailed 
+            information about each stock. With the integration of the Polygon API, our app provides you with up-to-date 
+            information on stock exchanges, ticker symbols, and market news.
+        </p>
+        <p>
+            Whether you're an experienced trader or just starting, our app offers the tools and information you need 
+            to make informed decisions. Stay updated with the latest market trends and news articles, and analyze 
+            historical data to understand stock performance over time.
+        </p>
+    </div>
+
+    <div class="footer">
+        <a href="https://github.com/Mikeyar1" target="_blank">GitHub</a> |
+        <a href="https://twitter.com/myTwittwe" target="_blank">Twitter</a> |
+        <a href="mailto:mikeyarias1@example.com">Email</a>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
