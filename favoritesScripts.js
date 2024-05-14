@@ -23,6 +23,11 @@ $(document).ready(function () {
 
     })
 
+    $("#backButton").on("click", function() {
+        console.log("click")
+        history.back();
+    })
+
     $('#manageTable').on('click', 'button', function () {
         var ticker = $(this).closest('tr').find('td:eq(2)').text();
 
