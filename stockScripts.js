@@ -52,8 +52,9 @@ function getStocks(operatingMic) {
       if (data.next_url) {
         getNextStockPage(data.next_url);
       } else {
-        for (let i = 0; i < stockArr.length; i++) {
-          $("#stockSelect").append(`<option value=${stockArr[i].ticker}>${stockArr[i].ticker}</option>`);
+        populateStocks();
+        if (stockArr.length > 0) {
+          $("#stockSelect").val(stockArr[0].ticker).trigger("change");
         }
       }
     })
@@ -75,11 +76,17 @@ function getNextStockPage(url) {
         getNextStockPage(data.next_url);
       } else {
         populateStocks();
+         if (stockArr.length > 0) {
+          $("#stockSelect").val(stockArr[0].ticker).trigger("change");
+        }
       }
     })
     .fail(function (error) {
       console.log("error", error.statusText);
       populateStocks();
+      if (stockArr.length > 0) {
+        $("#stockSelect").val(stockArr[0].ticker).trigger("change");
+      }
     });
 }
 
