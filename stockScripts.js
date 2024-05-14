@@ -5,20 +5,21 @@ var myChart = null;
 $(document).ready(function () {
   getExchanges();
   getStocks("XNYS");
+
   $("#loginModal").modal("toggle");
 
   $("#exchangeSelect").on("change", function () {
     operatingMic = getOperatingMic($("#exchangeSelect").prop("selectedIndex") - 1);
     $("#stockSelect").html("");
     getStocks(operatingMic);
-  }); 
+  });
 
   $("#stockSelect").on("change", function () {
-    var selectedTicker = $(this).val(); 
-    fetchStockDetails(selectedTicker); 
-    fetchHistoricalData(selectedTicker); 
+    var selectedTicker = $(this).val();
+    fetchStockDetails(selectedTicker);
+    fetchHistoricalData(selectedTicker);
     fetchNews(selectedTicker);
-});
+  });
 });
 
 function getExchanges() {
@@ -95,22 +96,22 @@ function populateStocks() {
 function fetchStockDetails(ticker) {
   const url = `https://api.polygon.io/v3/reference/tickers/${ticker}?apiKey=NFCC8EjKfksl6fuMJsqSchjvyX6h4HSZ`;
   $.ajax({
-      url: url,
-      type: 'GET',
-      success: function(data) {
-          displayStockDetails(data);
-      },
-      error: function(error) {
-          console.log("Error fetching stock details:", error);
-      }
+    url: url,
+    type: 'GET',
+    success: function (data) {
+      displayStockDetails(data);
+    },
+    error: function (error) {
+      console.log("Error fetching stock details:", error);
+    }
   });
 }
 
 function displayStockDetails(data) {
   if (!data || !data.results) {
-      console.log("No data received for stock details.");
-      $('#detailsText').html("No data available.");
-      return;
+    console.log("No data received for stock details.");
+    $('#detailsText').html("No data available.");
+    return;
   }
 
   // Accessing properties from data.results
@@ -131,11 +132,11 @@ function displayStockDetails(data) {
 
 function formatMarketCap(marketCap) {
   if (marketCap >= 1e9) {
-      return (marketCap / 1e9).toFixed(2) + ' Billion USD';
+    return (marketCap / 1e9).toFixed(2) + ' Billion USD';
   } else if (marketCap >= 1e6) {
-      return (marketCap / 1e6).toFixed(2) + ' Million USD';
+    return (marketCap / 1e6).toFixed(2) + ' Million USD';
   } else {
-      return marketCap.toFixed(2) + ' USD';
+    return marketCap.toFixed(2) + ' USD';
   }
 }
 
@@ -150,40 +151,40 @@ function fetchHistoricalData(ticker) {
   const url = `https://api.polygon.io/v2/aggs/ticker/${ticker}/range/1/day/${formattedStartDate}/${formattedEndDate}?adjusted=true&sort=asc&apiKey=NFCC8EjKfksl6fuMJsqSchjvyX6h4HSZ`;
 
   $.ajax({
-      url: url,
-      type: 'GET',
-      success: function(data) {
-          if (data.resultsCount >= 5) {
-              var labels = data.results.map(result => new Date(result.t).toLocaleDateString());
-              var prices = data.results.map(result => result.c);
-              populateHistoricalTable(data.results);
+    url: url,
+    type: 'GET',
+    success: function (data) {
+      if (data.resultsCount >= 5) {
+        var labels = data.results.map(result => new Date(result.t).toLocaleDateString());
+        var prices = data.results.map(result => result.c);
+        populateHistoricalTable(data.results);
 
-              var chartData = {
-                  labels: labels,
-                  datasets: [{
-                      label: 'Stock Price',
-                      backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                      borderColor: 'rgb(255, 99, 132)',
-                      data: prices,
-                  }]
-              };
+        var chartData = {
+          labels: labels,
+          datasets: [{
+            label: 'Stock Price',
+            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+            borderColor: 'rgb(255, 99, 132)',
+            data: prices,
+          }]
+        };
 
-              initializeChart(chartData);
-          } else {
-              console.log('Not enough trading data available');
-          }
-      },
-      error: function(error) {
-          console.log("Error fetching historical data:", error);
+        initializeChart(chartData);
+      } else {
+        console.log('Not enough trading data available');
       }
+    },
+    error: function (error) {
+      console.log("Error fetching historical data:", error);
+    }
   });
 }
 
 function populateHistoricalTable(data) {
   var tableHtml = '';
   for (var i = 0; i < data.length; i++) {
-      var changePercent = i === 0 ? 'N/A' : (((data[i].c - data[i-1].c) / data[i-1].c) * 100).toFixed(2) + '%';
-      tableHtml += `
+    var changePercent = i === 0 ? 'N/A' : (((data[i].c - data[i - 1].c) / data[i - 1].c) * 100).toFixed(2) + '%';
+    tableHtml += `
           <tr>
               <td>${new Date(data[i].t).toLocaleDateString()}</td>
               <td>${data[i].o.toFixed(2)}</td>
@@ -199,25 +200,25 @@ function populateHistoricalTable(data) {
 
 function initializeChart(chartData) {
   var ctx = document.getElementById('myChart').getContext('2d');
-  
+
   // Initialized a global variable myChart to destroy the existing chart instance if it exists so that a new chart can be created
   if (myChart) {
-      myChart.destroy();
+    myChart.destroy();
   }
 
   // Creates a new chart instance
   myChart = new Chart(ctx, {
-      type: 'line',
-      data: chartData,
-      options: {
-          scales: {
-              y: {
-                  beginAtZero: false
-              }
-          },
-          responsive: true,
-          maintainAspectRatio: false
-      }
+    type: 'line',
+    data: chartData,
+    options: {
+      scales: {
+        y: {
+          beginAtZero: false
+        }
+      },
+      responsive: true,
+      maintainAspectRatio: false
+    }
   });
 }
 
@@ -225,15 +226,15 @@ function initializeChart(chartData) {
 function fetchNews(ticker) {
   const url = `https://api.polygon.io/v2/reference/news?ticker=${ticker}&limit=5&apiKey=NFCC8EjKfksl6fuMJsqSchjvyX6h4HSZ`;
   $.ajax({
-      url: url,
-      type: 'GET',
-      success: function(response) {
-          displayNews(response.results);  
-      },
-      error: function(error) {
-          console.log("Error fetching news:", error);
-          $('#newsList').empty().append($('<li>').text('Failed to load news.'));
-      }
+    url: url,
+    type: 'GET',
+    success: function (response) {
+      displayNews(response.results);
+    },
+    error: function (error) {
+      console.log("Error fetching news:", error);
+      $('#newsList').empty().append($('<li>').text('Failed to load news.'));
+    }
   });
 }
 
@@ -242,17 +243,17 @@ function displayNews(newsItems) {
   newsList.empty();
 
   if (newsItems && newsItems.length > 0) {
-      newsItems.forEach(function(newsItem) {
-          var listItem = $('<li>').addClass('news-item');
-          var link = $('<a>', {
-              'href': newsItem.article_url, 
-              'text': newsItem.title,
-              'target': '_blank'  
-          });
-          listItem.append(link);
-          newsList.append(listItem);
+    newsItems.forEach(function (newsItem) {
+      var listItem = $('<li>').addClass('news-item');
+      var link = $('<a>', {
+        'href': newsItem.article_url,
+        'text': newsItem.title,
+        'target': '_blank'
       });
+      listItem.append(link);
+      newsList.append(listItem);
+    });
   } else {
-      newsList.append($('<li>').text('No news available.'));
+    newsList.append($('<li>').text('No news available.'));
   }
 }

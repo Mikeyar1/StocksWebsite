@@ -20,10 +20,9 @@ $(document).ready(function () {
     $("#loginModal").on("hide.bs.modal", function () {
         getFavorites();
         getFavoritesSummary();
-
     })
 
-    $("#backButton").on("click", function() {
+    $("#backButton").on("click", function () {
         console.log("click")
         history.back();
     })
@@ -104,7 +103,7 @@ function getStockTradingData(ticker, name) {
         $("#favoritesTable").append(`<td>${data.results[0].l}</td>`);
         $("#favoritesTable").append(`<td>${data.results[0].c}</td>`);
 
-        percent = ((data.results[0].l - data.results[0].c) / (data.results[0].c) * 100).toFixed(2);
+        percent = ((data.results[0].o - data.results[0].c) / (data.results[0].c) * 100).toFixed(2);
         if (percent > 0) {
             $("#favoritesTable").append(`<td class="positive">↑${percent}</td>`);
         } else {
@@ -170,7 +169,6 @@ function getFavoritesSummary() {
         url: `http://172.17.12.211/cse383_final/final.php/getFavorites?username=${username}`,
         method: "GET"
     }).done(function (data) {
-        console.log(username)
         for (let i = 0; i < data.data.length; i++) {
             getStockTradingData(data.data[i].ticker, data.data[i].stock);
         }
@@ -183,13 +181,13 @@ function calculateFavorites() {
     date = $("#endOfDay").val();
     history;
     a = $.ajax({
-        url: `http://172.17.12.211/cse383_final/final.php/getHistory?username=${username}&date1=1753-01-01&date2=${date}&sort=asc`,
+        url: `http://172.17.12.211/cse383_final/final.php/getHistory?username=${username}&date1=1753-01-01&date2=${date} 23:59:59&sort=asc`,
         method: "GET"
     }).done(function (data) {
         myHistory = new Set();
         indexes = [];
-        for(let i = 0; i < data.data.length; i++) {
-            if(myHistory.has(data.data[i].ticker)) {
+        for (let i = 0; i < data.data.length; i++) {
+            if (myHistory.has(data.data[i].ticker)) {
                 myHistory.delete(data.data[i].ticker);
                 indexes.splice(i, 1);
             } else {
@@ -211,5 +209,21 @@ function calculateFavorites() {
 
     }).fail(function (error) {
         console.log("error", error.statusText);
-    }) 
+    })
+}
+
+function getCookie(cname) {
+    let name = cname + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(';');
+    for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
 }

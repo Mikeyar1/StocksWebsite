@@ -163,7 +163,6 @@ class final_rest
 				$data = GET_SQL("select * from favoritesHistory where username=? and date between ? and ? order by date asc", $username, $date1, $date2);
 			} else {
 				$data = GET_SQL("select * from favoritesHistory where username=? and date between ? and ? order by date desc", $username, $date1, $date2);
-
 			}
 			$retData["status"]=0;
 			$retData["message"]="Returned entries for $username between $date1 and $date2";
