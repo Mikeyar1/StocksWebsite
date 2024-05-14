@@ -95,6 +95,7 @@ function getStockTradingData(ticker, name) {
         url: `https://api.polygon.io/v2/aggs/ticker/${ticker}/range/1/day/${date}/${date}?adjusted=true&sort=asc&apiKey=Et0sBzqfH5pR4lpBy2wWp1_PPeo6OMK2`,
         method: "GET"
     }).done(function (data) {
+        console.log(data);
         $("#favoritesTable").append(`<tr></tr>`);
         $("#favoritesTable").append(`<td>${ticker}</td>`);
         $("#favoritesTable").append(`<td>${name}</td>`);
